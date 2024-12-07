@@ -1,0 +1,36 @@
+@using SkillHub.Data
+@using SkillHub.Models
+
+
+@inject ApplicationDbContext DbContext
+@page "/profiles"
+
+
+<h3>Profiles</h3>
+
+@if (profiles == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ul>
+    @foreach (var profile in profiles)
+    {
+        <li>@profile.Name - @profile.Email</li>
+    }
+    </ul>
+
+}
+
+@code {
+@inject ApplicationDbContext DbContext
+@using Microsoft.EntityFrameworkCore;
+
+    private List<UserProfile> profiles;
+    protected override async Task OnInitializedAsync()
+    {
+    profiles = await DbContext.UserProfiles.ToListAsync();
+    }
+
+}

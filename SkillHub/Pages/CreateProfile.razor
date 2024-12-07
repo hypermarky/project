@@ -1,0 +1,29 @@
+@using SkillHub.Models
+@using SkillHub.Data
+@page "/createprofile"
+
+
+@inject ApplicationDbContext DbContext
+
+
+<h3>Create Profile</h3>
+
+<EditForm Model="newProfile" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText @bind-Value="newProfile.Name" />
+    <InputText @bind-Value="newProfile.Email" />
+    <button type="submit">Create Profile</button>
+</EditForm>
+
+@code {
+    private UserProfile newProfile = new UserProfile();
+
+    private async Task HandleValidSubmit()
+    {
+        // Adds the profile to the database
+        DbContext.UserProfiles.Add(newProfile);
+        await DbContext.SaveChangesAsync();
+    }
+}
